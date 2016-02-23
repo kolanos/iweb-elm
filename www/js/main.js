@@ -12601,10 +12601,14 @@ Elm.HostDetail.make = function (_elm) {
    $Result = Elm.Result.make(_elm),
    $Routes = Elm.Routes.make(_elm),
    $ServerApi = Elm.ServerApi.make(_elm),
-   $Signal = Elm.Signal.make(_elm);
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
    var _op = {};
    var HandleSaved = function (a) {    return {ctor: "HandleSaved",_0: a};};
    var SaveHost = {ctor: "SaveHost"};
+   var SetHostDiskSpace = function (a) {    return {ctor: "SetHostDiskSpace",_0: a};};
+   var SetHostMemory = function (a) {    return {ctor: "SetHostMemory",_0: a};};
+   var SetHostCPU = function (a) {    return {ctor: "SetHostCPU",_0: a};};
    var view = F2(function (address,model) {
       return A2($Html.div,
       _U.list([]),
@@ -12612,25 +12616,35 @@ Elm.HostDetail.make = function (_elm) {
               ,A2($Html.form,
               _U.list([$Html$Attributes.$class("form-horizontal")]),
               _U.list([A2($Html.div,
-                      _U.list([$Html$Attributes.$class("form-group")]),
-                      _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("CPU")]))
-                              ,A2($Html.div,
-                              _U.list([$Html$Attributes.$class("col-sm-10")]),
-                              _U.list([A2($Html.input,
-                              _U.list([$Html$Attributes.$class("form-control")
-                                      ,$Html$Attributes.name("cpu")
-                                      ,$Html$Attributes.value($Basics.toString(model.cpu))]),
-                              _U.list([]))]))]))
+              _U.list([$Html$Attributes.$class("form-group")]),
+              _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("CPU")]))
                       ,A2($Html.div,
-                      _U.list([$Html$Attributes.$class("form-group")]),
-                      _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Memory")]))
-                              ,A2($Html.div,
-                              _U.list([$Html$Attributes.$class("col-sm-10")]),
-                              _U.list([A2($Html.input,
-                              _U.list([$Html$Attributes.$class("form-control")
-                                      ,$Html$Attributes.name("memory")
-                                      ,$Html$Attributes.value($Basics.toString(model.memory))]),
-                              _U.list([]))]))]))
+                      _U.list([$Html$Attributes.$class("col-sm-10")]),
+                      _U.list([A2($Html.input,
+                      _U.list([$Html$Attributes.$class("form-control")
+                              ,$Html$Attributes.id("cpu")
+                              ,$Html$Attributes.autofocus(true)
+                              ,$Html$Attributes.name("cpu")
+                              ,$Html$Attributes.value($Basics.toString(model.cpu))
+                              ,A3($Html$Events.on,"input",$Html$Events.targetValue,function (str) {    return A2($Signal.message,address,SetHostCPU(str));})]),
+                      _U.list([]))]))]))]))
+              ,A2($Html.div,
+              _U.list([$Html$Attributes.$class("form-group")]),
+              _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Memory")]))
+                      ,A2($Html.div,
+                      _U.list([$Html$Attributes.$class("col-sm-10")]),
+                      _U.list([A2($Html.input,
+                      _U.list([$Html$Attributes.$class("form-control")
+                              ,$Html$Attributes.id("memory")
+                              ,$Html$Attributes.name("memory")
+                              ,$Html$Attributes.value($Basics.toString(model.memory))
+                              ,A3($Html$Events.on,
+                              "input",
+                              $Html$Events.targetValue,
+                              function (str) {
+                                 return A2($Signal.message,address,SetHostMemory(str));
+                              })]),
+                      _U.list([]))]))
                       ,A2($Html.div,
                       _U.list([$Html$Attributes.$class("form-group")]),
                       _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Disk Space")]))
@@ -12638,8 +12652,15 @@ Elm.HostDetail.make = function (_elm) {
                               _U.list([$Html$Attributes.$class("col-sm-10")]),
                               _U.list([A2($Html.input,
                               _U.list([$Html$Attributes.$class("form-control")
+                                      ,$Html$Attributes.id("disk_space")
                                       ,$Html$Attributes.name("disk_space")
-                                      ,$Html$Attributes.value($Basics.toString(model.disk_space))]),
+                                      ,$Html$Attributes.value($Basics.toString(model.disk_space))
+                                      ,A3($Html$Events.on,
+                                      "input",
+                                      $Html$Events.targetValue,
+                                      function (str) {
+                                         return A2($Signal.message,address,SetHostDiskSpace(str));
+                                      })]),
                               _U.list([]))]))]))
                       ,A2($Html.div,
                       _U.list([$Html$Attributes.$class("form-group")]),
@@ -12652,6 +12673,9 @@ Elm.HostDetail.make = function (_elm) {
    var ShowHost = function (a) {    return {ctor: "ShowHost",_0: a};};
    var GetHost = function (a) {    return {ctor: "GetHost",_0: a};};
    var NoOp = {ctor: "NoOp"};
+   var Model = F5(function (a,b,c,d,e) {    return {id: a,cpu: b,memory: c,disk_space: d,status: e};});
+   var init = A5(Model,$Maybe.Nothing,0,0,0,"");
+   var convertToInt = function (str) {    return A2($Maybe.withDefault,0,$Result.toMaybe($String.toInt(str)));};
    var update = F2(function (action,model) {
       var _p0 = action;
       switch (_p0.ctor)
@@ -12671,18 +12695,19 @@ Elm.HostDetail.make = function (_elm) {
                                  ,_1: A2($ServerApi.createHost,
                                  {cpu: model.cpu,memory: model.memory,disk_space: model.disk_space,status: "ACTIVE"},
                                  HandleSaved)};
-         default: var _p3 = _p0._0;
+         case "HandleSaved": var _p3 = _p0._0;
            if (_p3.ctor === "Just") {
                  var _p5 = _p3._0;
                  return {ctor: "_Tuple2"
                         ,_0: _U.update(model,{id: $Maybe.Just(_p5.id),cpu: _p5.cpu,memory: _p5.memory,disk_space: _p5.disk_space,status: _p5.status})
                         ,_1: A2($Effects.map,function (_p4) {    return NoOp;},$Routes.redirect($Routes.HostListingPage))};
               } else {
-                 return _U.crashCase("HostDetail",{start: {line: 58,column: 7},end: {line: 68,column: 64}},_p3)("Save failed... we\'re not handling it...");
-              }}
+                 return _U.crashCase("HostDetail",{start: {line: 75,column: 7},end: {line: 85,column: 64}},_p3)("Save failed... we\'re not handling it...");
+              }
+         case "SetHostCPU": return {ctor: "_Tuple2",_0: _U.update(model,{cpu: convertToInt(_p0._0)}),_1: $Effects.none};
+         case "SetHostMemory": return {ctor: "_Tuple2",_0: _U.update(model,{memory: convertToInt(_p0._0)}),_1: $Effects.none};
+         default: return {ctor: "_Tuple2",_0: _U.update(model,{disk_space: convertToInt(_p0._0)}),_1: $Effects.none};}
    });
-   var Model = F5(function (a,b,c,d,e) {    return {id: a,cpu: b,memory: c,disk_space: d,status: e};});
-   var init = A5(Model,$Maybe.Nothing,0,0,0,"");
    return _elm.HostDetail.values = {_op: _op
                                    ,init: init
                                    ,view: view
@@ -12691,6 +12716,9 @@ Elm.HostDetail.make = function (_elm) {
                                    ,NoOp: NoOp
                                    ,GetHost: GetHost
                                    ,ShowHost: ShowHost
+                                   ,SetHostCPU: SetHostCPU
+                                   ,SetHostMemory: SetHostMemory
+                                   ,SetHostDiskSpace: SetHostDiskSpace
                                    ,SaveHost: SaveHost
                                    ,HandleSaved: HandleSaved};
 };

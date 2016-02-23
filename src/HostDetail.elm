@@ -5,8 +5,16 @@ import Effects exposing (Effects)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, on, targetValue)
+import String exposing (toInt)
+
 import Routes
 import ServerApi exposing (Host, HostRequest, getHost, createHost)
+
+
+convertToInt : String -> Int
+convertToInt str =
+  toInt str |> Result.toMaybe |> Maybe.withDefault 0
+
 
 type alias Model =
   { id : Maybe Int
@@ -16,10 +24,14 @@ type alias Model =
   , status : String
   }
 
+
 type Action =
     NoOp
   | GetHost (Int)
   | ShowHost (Maybe Host)
+  | SetHostCPU (String)
+  | SetHostMemory (String)
+  | SetHostDiskSpace (String)
   | SaveHost
   | HandleSaved (Maybe Host)
 
@@ -27,13 +39,16 @@ init : Model
 init =
    Model Nothing 0 0 0 ""
 
+
 update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     NoOp ->
       (model, Effects.none)
+
     GetHost id ->
       (model, getHost id ShowHost)
+
     ShowHost maybeHost ->
       case maybeHost of
         Just host ->
@@ -52,8 +67,10 @@ update action model =
                     , status = "ACTIVE"}
           , Effects.none
           )
+
     SaveHost ->
       ( model, createHost {cpu = model.cpu, memory = model.memory, disk_space = model.disk_space, status = "ACTIVE"} HandleSaved )
+
     HandleSaved maybeHost ->
       case maybeHost of
         Just host ->
@@ -67,6 +84,22 @@ update action model =
         Nothing ->
           Debug.crash "Save failed... we're not handling it..."
 
+    SetHostCPU str ->
+      ( { model | cpu = (convertToInt str) }
+      , Effects.none
+      )
+
+    SetHostMemory str ->
+      ( { model | memory = (convertToInt str) }
+      , Effects.none
+      )
+
+    SetHostDiskSpace str ->
+      ( { model | disk_space = (convertToInt str) }
+      , Effects.none
+      )
+
+
 view : Signal.Address Action -> Model -> Html
 view address model =
   div [] [
@@ -77,9 +110,12 @@ view address model =
           , div [class "col-sm-10"] [
               input [
                 class "form-control"
+                , id "cpu"
+                , autofocus True
                 , name "cpu"
                 , value (toString model.cpu)
-              ] []
+                , on "input" targetValue (\str -> Signal.message address (SetHostCPU str))] []
+              ]
             ]
         ]
         , div [class "form-group"] [
@@ -87,17 +123,21 @@ view address model =
           , div [class "col-sm-10"] [
               input [
                 class "form-control"
+                , id "memory"
                 , name "memory"
-                , value (toString model.memory)] []
-            ]
+                , value (toString model.memory)
+                , on "input" targetValue (\str -> Signal.message address
+                (SetHostMemory str))] []
         ]
         , div [class "form-group"] [
             label [class "col-sm-2 control-label"] [text "Disk Space"]
           , div [class "col-sm-10"] [
               input [
                 class "form-control"
+                , id "disk_space"
                 , name "disk_space"
-                , value (toString model.disk_space)] []
+                , value (toString model.disk_space)
+                , on "input" targetValue (\str -> Signal.message address (SetHostDiskSpace str))] []
             ]
         ]
         , div [class "form-group"] [
