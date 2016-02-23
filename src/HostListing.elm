@@ -39,7 +39,8 @@ update action model =
 hostRow : Signal.Address Action -> Host -> Html
 hostRow address host =
   tr [] [
-      td [] [text (toString host.cpu)]
+      td [] [text (toString host.id)]
+     ,td [] [text (toString host.cpu)]
      ,td [] [text (toString host.memory)]
      ,td [] [text (toString host.disk_space)]
      ,td [] [text host.status]
@@ -58,7 +59,8 @@ view address model =
     , table [class "table table-striped"] [
           thead [] [
             tr [] [
-               th [] [text "CPU"]
+               th [] [text "ID"]
+               , th [] [text "CPU"]
                , th [] [text "Memory"]
                , th [] [text "Disk Space"]
                , th [] [text "Status"]

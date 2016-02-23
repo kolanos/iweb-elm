@@ -12719,7 +12719,8 @@ Elm.HostListing.make = function (_elm) {
    var hostRow = F2(function (address,host) {
       return A2($Html.tr,
       _U.list([]),
-      _U.list([A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(host.cpu))]))
+      _U.list([A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(host.id))]))
+              ,A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(host.cpu))]))
               ,A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(host.memory))]))
               ,A2($Html.td,_U.list([]),_U.list([$Html.text($Basics.toString(host.disk_space))]))
               ,A2($Html.td,_U.list([]),_U.list([$Html.text(host.status)]))
@@ -12742,7 +12743,8 @@ Elm.HostListing.make = function (_elm) {
                       _U.list([]),
                       _U.list([A2($Html.tr,
                       _U.list([]),
-                      _U.list([A2($Html.th,_U.list([]),_U.list([$Html.text("CPU")]))
+                      _U.list([A2($Html.th,_U.list([]),_U.list([$Html.text("ID")]))
+                              ,A2($Html.th,_U.list([]),_U.list([$Html.text("CPU")]))
                               ,A2($Html.th,_U.list([]),_U.list([$Html.text("Memory")]))
                               ,A2($Html.th,_U.list([]),_U.list([$Html.text("Disk Space")]))
                               ,A2($Html.th,_U.list([]),_U.list([$Html.text("Status")]))
