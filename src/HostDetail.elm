@@ -103,55 +103,62 @@ update action model =
 view : Signal.Address Action -> Model -> Html
 view address model =
   div [] [
-      h1 [] [text "Create Host"]
-    , Html.form [class "form-horizontal"] [
-        div [class "form-group"] [
-            label [class "col-sm-2 control-label"] [text "CPU"]
-          , div [class "col-sm-10"] [
-              div [class "input-group"] [
-                input [
-                  class "form-control"
-                  , id "cpu"
-                  , autofocus True
-                  , name "cpu"
-                  , value (toString model.cpu)
-                  , on "input" targetValue (\str -> Signal.message address (SetHostCPU str))] [],
-                  span [class "input-group-addon"] [text " Cores"]
-                ]
-              ]
-            ]
+    h1 [] [text "Create Host"],
+    Html.form [class "form-horizontal"] [
+      div [class "form-group"] [
+        label [class "col-sm-2 control-label"] [text "CPU"],
+        div [class "col-sm-10"] [
+          div [class "input-group"] [
+            input [
+              class "form-control",
+              id "cpu",
+              autofocus True,
+              name "cpu",
+              value (toString model.cpu),
+              on "input" targetValue (\str -> Signal.message address (SetHostCPU str))
+            ] [],
+            span [class "input-group-addon"] [text " Cores"]
+          ]
         ]
-        , div [class "form-group"] [
-            label [class "col-sm-2 control-label"] [text "Memory"]
-          , div [class "col-sm-10"] [
-              input [
-                class "form-control"
-                , id "memory"
-                , name "memory"
-                , value (toString model.memory)
-                , on "input" targetValue (\str -> Signal.message address
-                (SetHostMemory str))] []
+      ],
+      div [class "form-group"] [
+        label [class "col-sm-2 control-label"] [text "Memory"],
+        div [class "col-sm-10"] [
+          div [class "input-group"] [
+            input [
+              class "form-control",
+              id "memory",
+              name "memory",
+              value (toString model.memory),
+              on "input" targetValue (\str -> Signal.message address (SetHostMemory str))
+            ] [],
+            span [class "input-group-addon"] [text "MB"]
+          ]
         ]
-        , div [class "form-group"] [
-            label [class "col-sm-2 control-label"] [text "Disk Space"]
-          , div [class "col-sm-10"] [
-              input [
-                class "form-control"
-                , id "disk_space"
-                , name "disk_space"
-                , value (toString model.disk_space)
-                , on "input" targetValue (\str -> Signal.message address (SetHostDiskSpace str))] []
-            ]
+      ],
+      div [class "form-group"] [
+        label [class "col-sm-2 control-label"] [text "Disk Space"],
+        div [class "col-sm-10"] [
+          div [class "input-group"] [
+            input [
+              class "form-control",
+              id "disk_space",
+              name "disk_space",
+              value (toString model.disk_space),
+              on "input" targetValue (\str -> Signal.message address (SetHostDiskSpace str))
+            ] [],
+            span [class "input-group-addon"] [text "MB"]
+          ]
         ]
-        , div [class "form-group"] [
-            div [class "col-sm-offset-2 col-sm-10"] [
-              button [
-                  class "btn btn-default"
-                , type' "button"
-                , onClick address SaveHost
-              ]
-              [text "Save"]
-            ]
+      ],
+      div [class "form-group"] [
+        div [class "col-sm-offset-2 col-sm-10"] [
+          button [
+            class "btn btn-default",
+            type' "button",
+            onClick address SaveHost
+          ] [text "Save"]
         ]
+      ]
     ]
   ]

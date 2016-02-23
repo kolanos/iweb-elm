@@ -12616,60 +12616,66 @@ Elm.HostDetail.make = function (_elm) {
               ,A2($Html.form,
               _U.list([$Html$Attributes.$class("form-horizontal")]),
               _U.list([A2($Html.div,
-              _U.list([$Html$Attributes.$class("form-group")]),
-              _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("CPU")]))
+                      _U.list([$Html$Attributes.$class("form-group")]),
+                      _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("CPU")]))
+                              ,A2($Html.div,
+                              _U.list([$Html$Attributes.$class("col-sm-10")]),
+                              _U.list([A2($Html.div,
+                              _U.list([$Html$Attributes.$class("input-group")]),
+                              _U.list([A2($Html.input,
+                                      _U.list([$Html$Attributes.$class("form-control")
+                                              ,$Html$Attributes.id("cpu")
+                                              ,$Html$Attributes.autofocus(true)
+                                              ,$Html$Attributes.name("cpu")
+                                              ,$Html$Attributes.value($Basics.toString(model.cpu))
+                                              ,A3($Html$Events.on,
+                                              "input",
+                                              $Html$Events.targetValue,
+                                              function (str) {
+                                                 return A2($Signal.message,address,SetHostCPU(str));
+                                              })]),
+                                      _U.list([]))
+                                      ,A2($Html.span,_U.list([$Html$Attributes.$class("input-group-addon")]),_U.list([$Html.text(" Cores")]))]))]))]))
                       ,A2($Html.div,
-                      _U.list([$Html$Attributes.$class("col-sm-10")]),
-                      _U.list([A2($Html.div,
-                      _U.list([$Html$Attributes.$class("input-group")]),
-                      _U.list([A2($Html.input,
-                              _U.list([$Html$Attributes.$class("form-control")
-                                      ,$Html$Attributes.id("cpu")
-                                      ,$Html$Attributes.autofocus(true)
-                                      ,$Html$Attributes.name("cpu")
-                                      ,$Html$Attributes.value($Basics.toString(model.cpu))
-                                      ,A3($Html$Events.on,
-                                      "input",
-                                      $Html$Events.targetValue,
-                                      function (str) {
-                                         return A2($Signal.message,address,SetHostCPU(str));
-                                      })]),
-                              _U.list([]))
-                              ,A2($Html.span,_U.list([$Html$Attributes.$class("input-group-addon")]),_U.list([$Html.text(" Cores")]))]))]))]))]))
-              ,A2($Html.div,
-              _U.list([$Html$Attributes.$class("form-group")]),
-              _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Memory")]))
-                      ,A2($Html.div,
-                      _U.list([$Html$Attributes.$class("col-sm-10")]),
-                      _U.list([A2($Html.input,
-                      _U.list([$Html$Attributes.$class("form-control")
-                              ,$Html$Attributes.id("memory")
-                              ,$Html$Attributes.name("memory")
-                              ,$Html$Attributes.value($Basics.toString(model.memory))
-                              ,A3($Html$Events.on,
-                              "input",
-                              $Html$Events.targetValue,
-                              function (str) {
-                                 return A2($Signal.message,address,SetHostMemory(str));
-                              })]),
-                      _U.list([]))]))
+                      _U.list([$Html$Attributes.$class("form-group")]),
+                      _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Memory")]))
+                              ,A2($Html.div,
+                              _U.list([$Html$Attributes.$class("col-sm-10")]),
+                              _U.list([A2($Html.div,
+                              _U.list([$Html$Attributes.$class("input-group")]),
+                              _U.list([A2($Html.input,
+                                      _U.list([$Html$Attributes.$class("form-control")
+                                              ,$Html$Attributes.id("memory")
+                                              ,$Html$Attributes.name("memory")
+                                              ,$Html$Attributes.value($Basics.toString(model.memory))
+                                              ,A3($Html$Events.on,
+                                              "input",
+                                              $Html$Events.targetValue,
+                                              function (str) {
+                                                 return A2($Signal.message,address,SetHostMemory(str));
+                                              })]),
+                                      _U.list([]))
+                                      ,A2($Html.span,_U.list([$Html$Attributes.$class("input-group-addon")]),_U.list([$Html.text("MB")]))]))]))]))
                       ,A2($Html.div,
                       _U.list([$Html$Attributes.$class("form-group")]),
                       _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Disk Space")]))
                               ,A2($Html.div,
                               _U.list([$Html$Attributes.$class("col-sm-10")]),
+                              _U.list([A2($Html.div,
+                              _U.list([$Html$Attributes.$class("input-group")]),
                               _U.list([A2($Html.input,
-                              _U.list([$Html$Attributes.$class("form-control")
-                                      ,$Html$Attributes.id("disk_space")
-                                      ,$Html$Attributes.name("disk_space")
-                                      ,$Html$Attributes.value($Basics.toString(model.disk_space))
-                                      ,A3($Html$Events.on,
-                                      "input",
-                                      $Html$Events.targetValue,
-                                      function (str) {
-                                         return A2($Signal.message,address,SetHostDiskSpace(str));
-                                      })]),
-                              _U.list([]))]))]))
+                                      _U.list([$Html$Attributes.$class("form-control")
+                                              ,$Html$Attributes.id("disk_space")
+                                              ,$Html$Attributes.name("disk_space")
+                                              ,$Html$Attributes.value($Basics.toString(model.disk_space))
+                                              ,A3($Html$Events.on,
+                                              "input",
+                                              $Html$Events.targetValue,
+                                              function (str) {
+                                                 return A2($Signal.message,address,SetHostDiskSpace(str));
+                                              })]),
+                                      _U.list([]))
+                                      ,A2($Html.span,_U.list([$Html$Attributes.$class("input-group-addon")]),_U.list([$Html.text("MB")]))]))]))]))
                       ,A2($Html.div,
                       _U.list([$Html$Attributes.$class("form-group")]),
                       _U.list([A2($Html.div,
