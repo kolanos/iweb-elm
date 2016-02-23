@@ -12620,14 +12620,22 @@ Elm.HostDetail.make = function (_elm) {
               _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("CPU")]))
                       ,A2($Html.div,
                       _U.list([$Html$Attributes.$class("col-sm-10")]),
+                      _U.list([A2($Html.div,
+                      _U.list([$Html$Attributes.$class("input-group")]),
                       _U.list([A2($Html.input,
-                      _U.list([$Html$Attributes.$class("form-control")
-                              ,$Html$Attributes.id("cpu")
-                              ,$Html$Attributes.autofocus(true)
-                              ,$Html$Attributes.name("cpu")
-                              ,$Html$Attributes.value($Basics.toString(model.cpu))
-                              ,A3($Html$Events.on,"input",$Html$Events.targetValue,function (str) {    return A2($Signal.message,address,SetHostCPU(str));})]),
-                      _U.list([]))]))]))]))
+                              _U.list([$Html$Attributes.$class("form-control")
+                                      ,$Html$Attributes.id("cpu")
+                                      ,$Html$Attributes.autofocus(true)
+                                      ,$Html$Attributes.name("cpu")
+                                      ,$Html$Attributes.value($Basics.toString(model.cpu))
+                                      ,A3($Html$Events.on,
+                                      "input",
+                                      $Html$Events.targetValue,
+                                      function (str) {
+                                         return A2($Signal.message,address,SetHostCPU(str));
+                                      })]),
+                              _U.list([]))
+                              ,A2($Html.span,_U.list([$Html$Attributes.$class("input-group-addon")]),_U.list([$Html.text(" Cores")]))]))]))]))]))
               ,A2($Html.div,
               _U.list([$Html$Attributes.$class("form-group")]),
               _U.list([A2($Html.label,_U.list([$Html$Attributes.$class("col-sm-2 control-label")]),_U.list([$Html.text("Memory")]))

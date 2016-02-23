@@ -108,13 +108,16 @@ view address model =
         div [class "form-group"] [
             label [class "col-sm-2 control-label"] [text "CPU"]
           , div [class "col-sm-10"] [
-              input [
-                class "form-control"
-                , id "cpu"
-                , autofocus True
-                , name "cpu"
-                , value (toString model.cpu)
-                , on "input" targetValue (\str -> Signal.message address (SetHostCPU str))] []
+              div [class "input-group"] [
+                input [
+                  class "form-control"
+                  , id "cpu"
+                  , autofocus True
+                  , name "cpu"
+                  , value (toString model.cpu)
+                  , on "input" targetValue (\str -> Signal.message address (SetHostCPU str))] [],
+                  span [class "input-group-addon"] [text " Cores"]
+                ]
               ]
             ]
         ]
