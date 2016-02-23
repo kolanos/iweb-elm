@@ -1,13 +1,14 @@
 module Routes where
 
 import Effects exposing (Effects)
-import RouteParser exposing (..)
-import TransitRouter
 import Html exposing (Attribute)
 import Html.Attributes exposing (href)
-import Json.Decode as Json
 import Html.Events exposing (on, onClick, onWithOptions)
+import Json.Decode as Json
+import RouteParser exposing (..)
 import Signal
+import TransitRouter
+
 
 type Route
   = Home
@@ -15,6 +16,7 @@ type Route
   | HostDetailPage Int
   | NewHostPage
   | EmptyRoute
+
 
 routeParsers : List (Matcher Route)
 routeParsers =
@@ -24,10 +26,12 @@ routeParsers =
   , dyn1 HostDetailPage "/hosts/" int ""
   ]
 
+
 decode : String -> Route
 decode path =
   RouteParser.match routeParsers path
     |> Maybe.withDefault EmptyRoute
+
 
 encode : Route -> String
 encode route =
@@ -38,15 +42,18 @@ encode route =
     HostDetailPage  i -> "/hosts/" ++ toString i
     EmptyRoute -> ""
 
+
 redirect : Route -> Effects ()
 redirect route =
   encode route
     |> Signal.send TransitRouter.pushPathAddress
     |> Effects.task
 
+
 clickAttr : Route -> Attribute
 clickAttr route =
   on "click" Json.value (\_ ->  Signal.message TransitRouter.pushPathAddress <| encode route)
+
 
 linkAttrs : Route -> List Attribute
 linkAttrs route =

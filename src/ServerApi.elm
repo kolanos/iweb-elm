@@ -6,6 +6,7 @@ import Json.Decode as JsonD exposing ((:=))
 import Json.Encode as JsonE
 import Task
 
+
 type alias HostRequest a =
   { a | cpu : Int
       , memory : Int
