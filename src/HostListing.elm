@@ -49,8 +49,8 @@ hostRow address host =
   tr [] [
       td [] [text (toString host.id)]
      ,td [] [text (toString host.cpu ++ " Cores")]
-     ,td [] [text (toString host.memory ++ "MB")]
-     ,td [] [text (toString host.disk_space ++ "MB")]
+     ,td [] [text (toString host.memory ++ " MB")]
+     ,td [] [text (toString host.disk_space ++ " MB")]
      ,td [] [text host.status]
      ,td [] [button [onClick address (DeleteHost (.id host))] [text "Delete"]]
   ]
